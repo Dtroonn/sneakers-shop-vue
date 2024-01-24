@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps, onBeforeUpdate, onUpdated } from 'vue';
 import type { MyComponentProps } from './MyComponent.props';
 import { DatePicker, Button } from 'ant-design-vue';
+
+onBeforeUpdate(() => {
+  console.log('MY COMPONENT UPDATED');
+});
 
 const props = defineProps<MyComponentProps>();
 
