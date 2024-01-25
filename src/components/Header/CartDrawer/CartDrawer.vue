@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { Drawer } from 'ant-design-vue';
-import { ref, defineModel } from 'vue';
+import { defineModel } from 'vue';
 
 const isOpen = defineModel<boolean>({ default: false });
 

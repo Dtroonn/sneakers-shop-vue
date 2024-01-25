@@ -24,30 +24,52 @@ import { Header } from './components/Header';
 import { ref, onMounted, provide } from 'vue';
 import { HomePage } from './pages';
 import { ConfigProvider } from 'ant-design-vue';
-import { LOCAL_STORAGE_FAVOURITES_KEY } from './common/constants';
-import { FAVOURITES_INJECTION_KEY } from './common/injectionKeys';
+import { LOCAL_STORAGE_CART_KEY, LOCAL_STORAGE_FAVOURITES_KEY } from './common/constants';
+import { CART_INJECTION_KEY, FAVOURITES_INJECTION_KEY } from './common/injectionKeys';
+import type { FavouritesMap } from './types/FavouritesMap.type';
+import type { CartProductsMap } from './types/CartProductsMap.type';
+import type { IProduct } from './types/Product.interface';
 
-const favouritesProducts = ref<Record<number, boolean>>([]);
+const favouriteProductsMap = ref<FavouritesMap>({});
+const cartProductsMap = ref<CartProductsMap>({});
 
-const onChangeFavourites = (id: number) => {
-  if (favouritesProducts.value[id]) {
-    delete favouritesProducts.value[id];
+const onChangeFavouriteProductsMap = (id: number) => {
+  if (favouriteProductsMap.value[id]) {
+    delete favouriteProductsMap.value[id];
   } else {
-    favouritesProducts.value[id] = true;
+    favouriteProductsMap.value[id] = true;
   }
 
-  localStorage.setItem(LOCAL_STORAGE_FAVOURITES_KEY, JSON.stringify(favouritesProducts.value));
+  localStorage.setItem(LOCAL_STORAGE_FAVOURITES_KEY, JSON.stringify(favouriteProductsMap.value));
+};
+
+const onChangeCartProductsMap = (product: IProduct) => {
+  if (cartProductsMap.value[product.id]) {
+    delete cartProductsMap.value[product.id];
+  } else {
+    cartProductsMap.value[product.id] = product;
+  }
+
+  localStorage.setItem(LOCAL_STORAGE_CART_KEY, JSON.stringify(cartProductsMap.value));
 };
 
 onMounted(() => {
-  const favouritesItems = localStorage.getItem(LOCAL_STORAGE_FAVOURITES_KEY);
-  favouritesProducts.value = favouritesItems
-    ? (JSON.parse(favouritesItems) as Record<number, boolean>)
+  const favouritesItemsMap = localStorage.getItem(LOCAL_STORAGE_FAVOURITES_KEY);
+  const cartItemsMap = localStorage.getItem(LOCAL_STORAGE_CART_KEY);
+
+  favouriteProductsMap.value = favouritesItemsMap
+    ? (JSON.parse(favouritesItemsMap) as FavouritesMap)
     : [];
+  cartProductsMap.value = cartItemsMap ? (JSON.parse(cartItemsMap) as CartProductsMap) : [];
 });
 
 provide(FAVOURITES_INJECTION_KEY, {
-  onChangeFavourites,
-  favouritesProducts,
+  onChangeFavouriteProductsMap,
+  favouriteProductsMap,
+});
+
+provide(CART_INJECTION_KEY, {
+  cartProductsMap,
+  onChangeCartProductsMap,
 });
 </script>
