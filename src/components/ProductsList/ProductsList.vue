@@ -17,7 +17,7 @@
 <script lang="ts" setup>
 import { ProductCard } from '@/components/ProductCard';
 import type { ProductsListProps } from './ProductsList.props';
-import { inject } from 'vue';
+import { inject, onUpdated } from 'vue';
 import { CART_INJECTION_KEY, FAVOURITES_INJECTION_KEY } from '@/common/injectionKeys';
 import type { ExtractGeneric } from '@/types/ExtractGeneric.type';
 
@@ -29,6 +29,10 @@ const { cartProductsMap, onChangeCartProductsMap } = inject(CART_INJECTION_KEY) 
 >;
 
 defineProps<ProductsListProps>();
+
+onUpdated(() => {
+  console.log('UPDATED');
+});
 </script>
 
 <style lang="postcss" module="classes">

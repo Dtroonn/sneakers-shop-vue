@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { Header } from './components/Header';
-import { ref, onMounted, provide } from 'vue';
+import { ref, onMounted, provide, onUpdated } from 'vue';
 import { HomePage } from './pages';
 import { ConfigProvider } from 'ant-design-vue';
 import { LOCAL_STORAGE_CART_KEY, LOCAL_STORAGE_FAVOURITES_KEY } from './common/constants';
