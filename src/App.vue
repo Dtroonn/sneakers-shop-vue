@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { Header } from './components/Header';
-import { ref, onMounted, provide } from 'vue';
+import { ref, onMounted, provide, onUpdated } from 'vue';
 import { HomePage } from './pages';
 import { ConfigProvider } from 'ant-design-vue';
 import { LOCAL_STORAGE_CART_KEY, LOCAL_STORAGE_FAVOURITES_KEY } from './common/constants';
@@ -47,7 +47,10 @@ const onChangeCartProductsMap = (product: IProduct) => {
   if (cartProductsMap.value[product.id]) {
     delete cartProductsMap.value[product.id];
   } else {
-    cartProductsMap.value[product.id] = product;
+    cartProductsMap.value = {
+      ...cartProductsMap.value,
+      [product.id]: product,
+    };
   }
 
   localStorage.setItem(LOCAL_STORAGE_CART_KEY, JSON.stringify(cartProductsMap.value));
