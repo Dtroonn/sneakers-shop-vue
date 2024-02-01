@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes.products">
+  <div :class="classes.products" v-auto-animate>
     <div :class="classes.products__column" v-for="item in items" :key="item.id">
       <ProductCard
         :is-favourite="!!favouriteProductsMap[item.id]"

@@ -47,7 +47,10 @@ const onChangeCartProductsMap = (product: IProduct) => {
   if (cartProductsMap.value[product.id]) {
     delete cartProductsMap.value[product.id];
   } else {
-    cartProductsMap.value[product.id] = product;
+    cartProductsMap.value = {
+      ...cartProductsMap.value,
+      [product.id]: product,
+    };
   }
 
   localStorage.setItem(LOCAL_STORAGE_CART_KEY, JSON.stringify(cartProductsMap.value));

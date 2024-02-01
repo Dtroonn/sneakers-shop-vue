@@ -4,7 +4,7 @@
   </button>
   <Drawer v-model:open="isOpen" title="Корзина">
     <div :class="classes.body">
-      <div :class="classes.products">
+      <div :class="classes.products" v-auto-animate>
         <CartItem
           v-for="product in cartData.cartProducts"
           :class="classes.products__item"
